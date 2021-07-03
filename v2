@@ -1,0 +1,96 @@
+Sub Name_Phone_and_Email_Cleanup_and_Extraction()
+Dim lstrow As Long
+Dim nm As String
+Dim clmtxt As String
+Dim rwtxt As String
+Dim txt As String
+Dim sh As Worksheet
+Set sh = ActiveSheet
+Dim phns As Variant
+lstrow = sh.Range("a" & Rows.Count).End(xlUp).Row
+Write_txt ("#################################" & Now() & "########################################")
+With sh
+For r = 2 To lstrow
+nm = .Cells(r, 1).Value
+    For c = 26 To 50
+        If Not .Cells(r, c).Value = "" Then
+        
+            clmtxt = .Cells(1, c).Value
+            If InStr(1, clmtxt, "Value", vbTextCompare) Then
+                rwtxt = .Cells(r, c).Value
+                '---------------------
+                If InStr(1, clmtxt, "Mail", vbTextCompare) Then
+                      txt = nm & "," & rwtxt
+                        Write_txt (txt)
+                    txt = ""
+                ElseIf InStr(1, clmtxt, "Phone", vbTextCompare) Then
+                    If InStr(1, rwtxt, ":", vbTextCompare) Then
+                           phns = Split(rwtxt, ":::")
+                            If UBound(phns) > -1 Then
+                                For x = 0 To UBound(phns)
+                                txt = phns(x)
+                                txt = clrphn(txt)
+                                If Len(txt) > 10 Then
+                                    
+                                    txt = nm & "," & txt
+                                     Write_txt (txt)
+                                     txt = ""
+                                End If
+                                Next
+                            End If
+                    Else
+                        txt = clrphn(rwtxt)
+                        If Len(txt) > 10 Then
+                            txt = nm & "," & txt
+                            Write_txt (txt)
+                            txt = ""
+                         End If
+                     End If
+                End If
+                '---------------------
+            End If
+            
+        End If
+    Next
+Next
+End With
+ MsgBox "Done!"
+ End Sub
+ 
+ Function Write_txt(Texobj As String)
+                                                        If Texobj <> "" Then
+                                                        Dim strfile_path As String
+                                                            strfile_path = ThisWorkbook.Path & "\Contact.txt" 'Change as per your test folder and exiting file path to append it.
+                                                            If Dir(strfile_path) = "" Then
+                                                                 crfile (strfile_path)
+                                                            Else
+                                                            Open strfile_path For Append As #1
+                                                            Print #1, Texobj
+                                                            Close #1
+                                                           
+                                                            End If
+                                                            
+                                                        End If
+                                                            
+                                                            
+ End Function
+ Function crfile(a As String)
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Dim oFile As Object
+    Set oFile = fso.CreateTextFile(a)
+    oFile.Close
+    Set fso = Nothing
+    Set oFile = Nothing
+ End Function
+Function clrphn(text As String) As String
+    Dim output As String
+    Dim c
+    For i = 1 To Len(text)
+        c = Mid(text, i, 1)
+        If (c >= "0" And c <= "9") Or (c = "+") Then
+            output = output & c
+        End If
+    Next
+    clrphn = output
+End Function
+
