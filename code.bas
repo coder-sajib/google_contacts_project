@@ -1,4 +1,4 @@
-' See README.MD
+' See README.MD https://github.com/tedpenner/google_contacts_project/blob/main/README.MD
 
 Name_Phone_and_Email_Cleanup_and_Extraction()
 Text = ""
