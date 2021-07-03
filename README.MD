@@ -4,8 +4,8 @@ https://us02web.zoom.us/j/7126833038
 PURPOSE
 Correct the contacts.csv export from contacts.google.com so that they all include the country code resulting in at least 11 digits for each phone number.
 From that cleaned file, create a list of names and numbers in output.txt based on the applied filter being carefull not include rows that have been filtered out.
-' Likewise, create a list of names and email addresses below the names and numbers in the same output.txt.
-' The only name column to use is the one called "name" and data in the other name columns can be removed.
+Likewise, create a list of names and email addresses below the names and numbers in the same output.txt.
+The only name column to use is the one called "name" and data in the other name columns can be removed.
 
 TESTING
 To test this code, simply download contacts.csv from contacts.google.com and run the macro against active sheet.
